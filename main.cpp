@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
             filename1 = arg;
         else if (filename2.isEmpty() && arg.toLower().endsWith(".pdf"))
             filename2 = arg;
-        else if (filename3.isEmpty() && arg.toLower().endsWith(".pdf"))
+        else if (filename3.isEmpty())
             filename3 = arg;
         else
             out << "unrecognized argument '" << arg << "'\n";
