@@ -885,7 +885,7 @@ const QPair<QPixmap, QPixmap> MainWindow::populatePixmaps(
 #endif
         QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
         const int DPI = static_cast<int>(POINTS_PER_INCH *
-                (zoomSpinBox->value() / 100.0));
+                (zoomSpinBox->value() / 50.0)); // k-okada
         const bool compareText = compareComboBox->currentIndex() !=
                                  CompareAppearance;
         QImage plainImage1;
@@ -1698,6 +1698,13 @@ void MainWindow::saveAsPdf(const int start, const int end,
         const PdfDocument &pdf1, const PdfDocument &pdf2,
         const QString &header)
 {
+    PdfPage page1(pdf1->page(0));
+    if (!page1)
+        return;
+    PdfPage page2(pdf2->page(0));
+    if (!page2)
+        return;
+
     QPrinter printer(QPrinter::HighResolution);
     printer.setOutputFileName(saveFilename);
     printer.setOutputFormat(QPrinter::PdfFormat);
@@ -1705,6 +1712,10 @@ void MainWindow::saveAsPdf(const int start, const int end,
     printer.setCreator(tr("DiffPDF"));
     printer.setOrientation(savePages == SaveBothPages
             ? QPrinter::Landscape : QPrinter::Portrait);
+    QSizeF paper_size(std::max(page1->pageSize().height(), page2->pageSize().height()),
+                      (page1->pageSize().width() + page2->pageSize().width()));
+    printer.setPaperSize(paper_size,  QPrinter::Point);
+    //printer.setOutputOrientation(QPrinter::Landscape);
     QPainter painter(&printer);
     painter.setFont(QFont("Helvetica", 11));
     painter.setPen(Qt::darkCyan);
