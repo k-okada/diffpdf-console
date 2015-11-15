@@ -271,7 +271,7 @@ void MainWindow::createWidgets(const QString &filename1,
                 "outside non-zero margins is ignored when comparing."));
     marginsGroupBox->setCheckable(true);
     marginsGroupBox->setChecked(settings.value("Margins/Exclude",
-                false).toBool());
+                true).toBool());
     topMarginLabel = new QLabel(tr("&Top:"));
     topMarginSpinBox = new QSpinBox;
     topMarginSpinBox->setSuffix(" pt");
@@ -283,7 +283,7 @@ void MainWindow::createWidgets(const QString &filename1,
     bottomMarginLabel = new QLabel(tr("&Bottom:"));
     bottomMarginSpinBox = new QSpinBox;
     bottomMarginSpinBox->setSuffix(" pt");
-    bottomMarginSpinBox->setValue(settings.value("Margins/Bottom", 0)
+    bottomMarginSpinBox->setValue(settings.value("Margins/Bottom", 60)
             .toInt());
     bottomMarginSpinBox->setAlignment(Qt::AlignVCenter|Qt::AlignRight);
     bottomMarginSpinBox->setToolTip(tr("<p>The bottom margin in points. "
